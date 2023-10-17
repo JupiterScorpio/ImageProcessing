@@ -1,0 +1,94 @@
+﻿<Window x:Class="UAM.PTO.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:UAM.PTO"
+        TextOptions.TextFormattingMode="Display"
+        Title="{Binding Path=Path, StringFormat=ImageProcessing [{0}]}" Height="350" Width="525">
+    <Window.Resources>
+        <local:PNMToBitmapConverter x:Key="PNMConverter" />
+    </Window.Resources>
+    <DockPanel Name="panel">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Command="Open"></MenuItem>
+                <MenuItem Header="_Save" Command="Save"></MenuItem>
+                <MenuItem Header="_Save As..." Command="SaveAs"></MenuItem>
+                <Separator/>
+                <MenuItem Header="E_xit" Command="{x:Static local:Commands.File.Exit}"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Command="Undo"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="Histogram..." Command="{x:Static local:Commands.Tools.Histogram}"/>
+                <MenuItem Header="Brightness and contrast..." Command="{x:Static local:Commands.Tools.BrightnessContrast}"/>
+                <MenuItem Header="Gamma..." Command="{x:Static local:Commands.Tools.Gamma}"/>
+                <MenuItem Header="Show in CMYK..." Command="{x:Static local:Commands.Tools.CMYK}"/>
+            </MenuItem>
+            <MenuItem Header="F_ilters">
+                <MenuItem Header="_Convolution Matrix..." Command="{x:Static local:Commands.Filters.Convolution}"/>
+                <Separator/>
+                <MenuItem Header="_Histogram">
+                    <MenuItem Header="_Stretch" Command="{x:Static local:Commands.Filters+Histogram.Stretch}"/>
+                    <MenuItem Header="_Equalize" Command="{x:Static local:Commands.Filters+Histogram.Equalize}"/>
+                </MenuItem>
+                <MenuItem Header="_Blur">
+                    <MenuItem Header="_Uniform" Command="{x:Static local:Commands.Filters+Blur.Uniform}"/>
+                    <MenuItem Header="_Gaussian" Command="{x:Static local:Commands.Filters+Blur.Gaussian}"/>
+                </MenuItem>
+                <MenuItem Header="_Edge detection">
+                    <MenuItem Header="_Laplace" Command="{x:Static local:Commands.Filters+Edges.Laplace}"/>
+                    <MenuItem Header="_Gradient" Command="{x:Static local:Commands.Filters+Edges.Gradient}"/>
+                    <MenuItem Header="_Sobel" Command="{x:Static local:Commands.Filters+Edges.Sobel}"/>
+                    <MenuItem Header="_Prewitt" Command="{x:Static local:Commands.Filters+Edges.Prewitt}"/>
+                    <MenuItem Header="_Roberts" Command="{x:Static local:Commands.Filters+Edges.Roberts}"/>
+                    <MenuItem Header="_Laplacian of Gaussian" Command="{x:Static local:Commands.Filters+Edges.LaplacianOfGaussian}"/>
+                    <MenuItem Header="_Difference of Gaussian" Command="{x:Static local:Commands.Filters+Edges.DifferenceOfGaussian}"/>
+                    <MenuItem Header="_Crossing of zero" Command="{x:Static local:Commands.Filters+Edges.ZeroCrossing}"/>
+                    <MenuItem Header="C_anny" Command="{x:Static local:Commands.Filters+Edges.Canny}"/>
+                </MenuItem>
+                <MenuItem Header="_Denoise">
+                    <MenuItem Header="_Median" Command="{x:Static local:Commands.Filters+Denoise.Median}"/>
+                </MenuItem>
+                <MenuItem Header="_Morphology">
+                    <MenuItem Header="_Dilation" Command="{x:Static local:Commands.Filters+Morphology.Dilation}" />
+                    <MenuItem Header="_Erosion" Command="{x:Static local:Commands.Filters+Morphology.Erosion}" />
+                    <MenuItem Header="_Opening" Command="{x:Static local:Commands.Filters+Morphology.Opening}" />
+                    <MenuItem Header="_Closing" Command="{x:Static local:Commands.Filters+Morphology.Closing}" />
+                </MenuItem>
+                <MenuItem Header="_Thresholding">
+                    <MenuItem Header="_Plain..." Command="{x:Static local:Commands.Filters+Thresholding.Plain}" />
+                    <MenuItem Header="_Otsu" Command="{x:Static local:Commands.Filters+Thresholding.Otsu}" />
+                    <MenuItem Header="_Triangle" Command="{x:Static local:Commands.Filters+Thresholding.Triangle}" />
+                    <MenuItem Header="_Entropy" Command="{x:Static local:Commands.Filters+Thresholding.Entropy}" />
+                    <MenuItem Header="_Niblack" Command="{x:Static local:Commands.Filters+Thresholding.Niblack}" />
+                </MenuItem>
+                <MenuItem Header="_Artistic">
+                    <MenuItem Header="_Oil" Command="{x:Static local:Commands.Filters+Artistic.Oil}" />
+                    <MenuItem Header="_Fish eye" Command="{x:Static local:Commands.Filters+Artistic.FishEye}" />
+                    <MenuItem Header="_Mirror" Command="{x:Static local:Commands.Filters+Artistic.Mirror}" />
+                    <MenuItem Header="_Negative" Command="{x:Static local:Commands.Filters+Artistic.Negative}" />
+                    <MenuItem Header="_Emboss" Command="{x:Static local:Commands.Filters+Artistic.Emboss}" />
+                </MenuItem>
+                <MenuItem Header="Ma_pping">
+                    <MenuItem Header="_Normal" Command="{x:Static local:Commands.Filters+Mapping.Normal}" />
+                    <MenuItem Header="_Horizon..." Command="{x:Static local:Commands.Filters+Mapping.Horizon}" />
+                </MenuItem>
+                <MenuItem Header="_Line detection">
+                    <MenuItem Header="_Hough" Command="{x:Static local:Commands.Filters+Lines.Hough}" />
+                </MenuItem>
+                <MenuItem Header="_Corner detection">
+                    <MenuItem Header="_Harris" Command="{x:Static local:Commands.Filters+Corners.Harris}" />
+                </MenuItem>
+                <MenuItem Header="_Rectangle detection">
+                    <MenuItem Header="_Hough" Command="{x:Static local:Commands.Filters+Rectangles.Hough}" />
+                </MenuItem>
+                <MenuItem Header="D_istance transform" Command="{x:Static local:Commands.Filters.Distance}" />
+                <MenuItem Header="_Grayscale" Command="{x:Static local:Commands.Filters.Grayscale}" />
+            </MenuItem>
+        </Menu>
+        <ScrollViewer x:Name="scrollViewer" HorizontalContentAlignment="Center" HorizontalScrollBarVisibility="Auto" VerticalContentAlignment="Center" VerticalScrollBarVisibility="Auto" AllowDrop="True" Drop="OnDrop">
+            <Image UseLayoutRounding="True" x:Name="image" Width="{Binding Path=Image.Width}" Height="{Binding Path=Image.Height}" Source="{Binding Image, Converter={StaticResource PNMConverter}}"/>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
